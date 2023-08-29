@@ -10,6 +10,13 @@
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     @notifyCss
     <title>@yield('title') | Administration</title>
+    <style>
+        @layer demo {
+            button {
+                all: unset;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -34,25 +41,26 @@
                         <a @class(['nav-link', 'active' => str_contains($route, 'option.')]) href="{{ route('admin.option.index') }}">Gerer les options</a>
                     </li>
                 </ul>
+                <div class="ms-auto">
+                    @auth
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="post">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="nav-link">Se deconnecter</button>
+                                </form> 
+                            </li>
+                        </ul>
+                    @endauth
+                </div>
             </div>
         </div>
     </nav>
 
 
     <div class="container mt-5">
-        @if (session('success'))
-            @include('notify::components.notify')
-        @endif
-
-        {{-- @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="my-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif --}}
+        @include('shared.flash')
         @yield('content')
     </div>
     @notifyJs
