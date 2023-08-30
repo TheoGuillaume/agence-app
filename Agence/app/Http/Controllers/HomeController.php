@@ -9,7 +9,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $properties = Property::orderBy('created_at', 'desc')->limit(4)->get();
+        $property = new Property();
+        $properties = $property->getLastProperties();
         return view('home', ['properties' => $properties]);
     }
 }

@@ -14,10 +14,10 @@ class Property extends Model
     protected $fillable = [
         'title',
         'description',
-        'surface', 
-        'rooms', 
-        'bedrooms', 
-        'floor', 
+        'surface',
+        'rooms',
+        'bedrooms',
+        'floor',
         'price',
         'city',
         'address',
@@ -33,5 +33,29 @@ class Property extends Model
     public function getSlug(): string
     {
         return Str::slug($this->title);
+    }
+
+    public function getLastProperties()
+    {
+        $properties = Property::query()->where('sold', '=', '0')->orderBy('created_at', 'desc')->limit(4)->get();
+        return $properties;
+    }
+
+    public static function getProperties($price, $surface, $rooms, $title)
+    {
+        $query = self::query()->where('sold', '=', '0')->orderBy('created_at', 'desc');
+        if ($price) {
+            $query = $query->where('price', '<', $price);
+        }
+        if ($surface) {
+            $query = $query->where('surface', '>', $surface);
+        }
+        if ($rooms) {
+            $query = $query->where('rooms', '>', $rooms);
+        }
+        if ($title) {
+            $query = $query->where('title', 'like', "%{$title}%");
+        }
+        return $query;
     }
 }

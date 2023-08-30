@@ -13,20 +13,12 @@ class PropertyController extends Controller
 {
     public function index(SearchPropertiesRequest $request)
     { 
-        //$query = Property::query()->with('options');
-        $query = Property::query()->orderBy('created_at', 'desc');
-        if($price = $request->validated('price')){
-            $query = $query->where('price', '<', $price);
-        }
-        if($surface = $request->validated('surface')){
-            $query = $query->where('surface', '>', $surface);
-        }
-        if($rooms = $request->validated('rooms')){
-            $query = $query->where('rooms', '>', $rooms);
-        }
-        if($title = $request->validated('title')){
-            $query = $query->where('title', 'like', "%{$title}%");
-        }
+        $query = Property::getProperties(
+            $request->validated('price'),
+            $request->validated('surface'),
+            $request->validated('rooms'),
+            $request->validated('title')
+        );
         return view('property.index', [
             'properties' => $query->paginate(16),
             'input' => $request->validated()
