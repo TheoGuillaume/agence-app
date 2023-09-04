@@ -14,7 +14,7 @@ class OptionController extends Controller
     public function index()
     {
         return view('admin.options.index', [
-            'options' => Option::paginate(10)
+            'options' => Option::where('etat', '=', 1)->paginate(10)
         ]);
     }
 
@@ -63,7 +63,9 @@ class OptionController extends Controller
      */
     public function destroy(Option $option)
     {
-        $option->delete();
+        $option->etat = 0;
+        $option->save();
+        // $option->delete();
         return to_route('admin.option.index')->with('success', notify()->success('L\'option a bien été suprimer'));
     }
 }

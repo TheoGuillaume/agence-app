@@ -59,7 +59,7 @@ class PropertyController extends Controller
     {
         return view('admin.properties.form', [
             'property' => $property,
-            'options' => Option::pluck('name', 'id')
+            'options' => Option::where('etat', '=', 1)->pluck('name', 'id')
         ]);
     }
 

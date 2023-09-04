@@ -32,6 +32,9 @@
                             <a href="{{ route('admin.property.edit', $property) }}" class="btn btn-primary">
                                 Editer
                             </a>
+                            <a href="{{ route('admin.property.addPhoto', $property) }}" class="btn btn-info">
+                                Add photo
+                            </a>
                             <form action="{{ route('admin.property.destroy', $property) }}" method="post">
                                 @csrf
                                 @method('delete')

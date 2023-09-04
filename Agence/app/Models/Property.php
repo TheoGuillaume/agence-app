@@ -27,7 +27,7 @@ class Property extends Model
 
     public function options(): BelongsToMany
     {
-        return $this->belongsToMany(Option::class);
+        return $this->belongsToMany(Option::class)->where('etat', '=', 1);
     }
 
     public function getSlug(): string

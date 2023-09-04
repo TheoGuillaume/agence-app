@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\OptionController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\PhotoPropertyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,8 @@ Route::post('/login', [AuthController::class, 'doLogin']);
 Route::delete('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::get('/biens/{property}/addPhoto', [PhotoPropertyController::class, 'index'])->name('property.addPhoto');
+    Route::post('/biens/storePhoto', [PhotoPropertyController::class, 'store'])->name('property.storePhoto');
     Route::resource('property', PropertyController::class)->except(['show']);
     Route::resource('option', OptionController::class)->except(['show']);
 });
